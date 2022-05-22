@@ -4,7 +4,7 @@ import { FiEdit3, FiTrash } from 'react-icons/fi';
 import { Container } from './styles';
 import api from '../../services/api';
 
-type typeFood = {
+interface typeFood {
   id: number;
   image: string;
   name: string;
@@ -13,27 +13,28 @@ type typeFood = {
   available: boolean;
 }
 
+ 
 interface FoodProps {
   food: typeFood;
-  handleDelete: (id: number) => Promise<void>;
+  handleDelete: (id: number) => void;
   handleEditFood: (food: typeFood) => void;
   
 }
 
 
-class Food extends Component<FoodProps> {
-  constructor(props: any) {
+class Food extends Component<any, any, FoodProps>{
+  constructor( props: any) {
     super(props);
 
-    const { available } = this.props.food;
-    this.state = {
+    const { available } =  this.props.food;
+    this.state =  {
       isAvailable: available
     };
   }
 
   toggleAvailable = async () => {
     const { food } = this.props;
-    const { isAvailable } = this.state;
+    const  { isAvailable } = this.state;
 
     await api.put(`/foods/${food.id}`, {
       ...food,
