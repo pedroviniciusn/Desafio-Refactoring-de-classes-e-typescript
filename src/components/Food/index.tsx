@@ -18,7 +18,6 @@ interface FoodProps {
   food: typeFood;
   handleDelete: (id: number) => void;
   handleEditFood: (food: typeFood) => void;
-  
 }
 
 

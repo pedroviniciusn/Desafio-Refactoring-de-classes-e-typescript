@@ -7,6 +7,14 @@
       "price": "21.90",
       "available": true,
       "image": "https://storage.googleapis.com/golden-wind/bootcamp-gostack/desafio-food/food2.png"
+    },
+    {
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2W69hdoWdo2mh68FaN_LqxHWw2OS4_rXnog&usqp=CAU",
+      "name": "Pizza ",
+      "price": "58,90",
+      "description": "Golloza mozarella",
+      "available": true,
+      "id": 4
     }
   ]
 }

@@ -7,8 +7,28 @@ import ModalAddFood from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
 
-class Dashboard extends Component {
-  constructor(props) {
+
+interface Foods {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  available: boolean;
+  image: string;
+}
+
+type FoodInput = Omit<Foods, 'name' | 'description' | 'price' | 'available' | 'image'>
+
+interface DashboardProps {
+  foods: Array<Foods>;
+  editingFood: { id?: number };
+  modalOpen: boolean;
+  editModalOpen: boolean;
+}
+
+
+class Dashboard extends Component<any, any, DashboardProps> {
+  constructor(props: any) {
     super(props);
     this.state = {
       foods: [],
@@ -24,9 +44,8 @@ class Dashboard extends Component {
     this.setState({ foods: response.data });
   }
 
-  handleAddFood = async food => {
+  handleAddFood = async (food: Foods) => {
     const { foods } = this.state;
-
     try {
       const response = await api.post('/foods', {
         ...food,
@@ -39,7 +58,7 @@ class Dashboard extends Component {
     }
   }
 
-  handleUpdateFood = async food => {
+  handleUpdateFood = async (food: Foods) => {
     const { foods, editingFood } = this.state;
 
     try {
@@ -48,7 +67,7 @@ class Dashboard extends Component {
         { ...editingFood, ...food },
       );
 
-      const foodsUpdated = foods.map(f =>
+      const foodsUpdated = foods.map( (f: FoodInput) =>
         f.id !== foodUpdated.data.id ? f : foodUpdated.data,
       );
 
@@ -58,12 +77,12 @@ class Dashboard extends Component {
     }
   }
 
-  handleDeleteFood = async id => {
+  handleDeleteFood = async (id: number) => {
     const { foods } = this.state;
 
     await api.delete(`/foods/${id}`);
 
-    const foodsFiltered = foods.filter(food => food.id !== id);
+    const foodsFiltered = foods.filter((food: Foods) => food.id !== id);
 
     this.setState({ foods: foodsFiltered });
   }
@@ -80,7 +99,7 @@ class Dashboard extends Component {
     this.setState({ editModalOpen: !editModalOpen });
   }
 
-  handleEditFood = food => {
+  handleEditFood = (food: Foods) => {
     this.setState({ editingFood: food, editModalOpen: true });
   }
 
@@ -99,12 +118,13 @@ class Dashboard extends Component {
           isOpen={editModalOpen}
           setIsOpen={this.toggleEditModal}
           editingFood={editingFood}
-          handleUpdateFood={this.handleUpdateFood}
-        />
+          handleUpdateFood={this.handleUpdateFood} handleSubmit={function (data: any): void {
+            throw new Error('Function not implemented.');
+          } }        />
 
         <FoodsContainer data-testid="foods-list">
           {foods &&
-            foods.map(food => (
+            foods.map((food: Foods) => (
               <Food
                 key={food.id}
                 food={food}
